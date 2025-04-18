@@ -70,4 +70,14 @@ class PriceControllerTest {
             .andExpect(jsonPath("$.카테고리").isArray())
             .andExpect(jsonPath("$.총액").isNumber());
     }
+
+    @Test
+    @DisplayName("카테고리 이름으로 최저/최고 가격과 브랜드 조회")
+    void getCategoryMinMaxPriceInfo() throws Exception {
+        mockMvc.perform(get("/api/v1/prices/category-min-max-price").param("category","가방"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.카테고리").isString())
+            .andExpect(jsonPath("$.최저가").isArray())
+            .andExpect(jsonPath("$.최고가").isArray());
+    }
 }
