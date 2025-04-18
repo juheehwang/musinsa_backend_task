@@ -1,7 +1,5 @@
-package com.musinsa.task.repository;
+package com.musinsa.task.entity;
 
-import com.musinsa.task.entity.Category;
-import com.musinsa.task.entity.Product;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,5 @@
-package com.musinsa.task.repository;
+package com.musinsa.task.entity;
 
-import com.musinsa.task.entity.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BrandRepository extends JpaRepository<Brand,Long> {

@@ -1,16 +1,14 @@
 package com.musinsa.task.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musinsa.task.entity.Brand;
 import com.musinsa.task.entity.Category;
 import com.musinsa.task.entity.Product;
-import com.musinsa.task.repository.BrandRepository;
-import com.musinsa.task.repository.ProductRepository;
+import com.musinsa.task.entity.BrandRepository;
+import com.musinsa.task.entity.ProductRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -60,6 +58,16 @@ class PriceControllerTest {
         mockMvc.perform(get("/api/v1/prices/lowest-by-category"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.products").isArray())
+            .andExpect(jsonPath("$.총액").isNumber());
+    }
+
+    @Test
+    @DisplayName("단일브랜드로 모든 카테고리 상품 최저가 & 총합 api")
+    void getLowestByBrand() throws Exception {
+        mockMvc.perform(get("/api/v1/prices/lowest-by-brand"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.브랜드").isString())
+            .andExpect(jsonPath("$.카테고리").isArray())
             .andExpect(jsonPath("$.총액").isNumber());
     }
 }

@@ -1,12 +1,17 @@
 package com.musinsa.task.service;
 
+import com.musinsa.task.dto.response.CategoryResponse;
 import com.musinsa.task.dto.response.PriceResponse;
+import com.musinsa.task.entity.Brand;
+import com.musinsa.task.entity.BrandRepository;
 import com.musinsa.task.entity.Category;
-import com.musinsa.task.repository.ProductRepository;
+import com.musinsa.task.entity.Product;
+import com.musinsa.task.entity.ProductRepository;
+import com.musinsa.task.exception.NotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +19,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PriceService {
 
+    private final static String Total_Price = "총액";
     private final ProductRepository productRepository;
+    private final BrandRepository brandRepository;
+
 
     public Map<String, Object> findLowestByCategoryWithTotal(){
         List<PriceResponse> priceResponseList = new ArrayList<>();
@@ -34,7 +42,24 @@ public class PriceService {
         }
 
         total = priceResponseList.stream().mapToInt(PriceResponse::getPrice).sum();
-       return Map.of("products",priceResponseList,"총액", total);
+       return Map.of("products",priceResponseList,Total_Price, total);
+    }
+
+    public Map<String, Object> findLowestByBrandWithTotal() {
+        Brand brand = brandRepository.findAll().stream()
+            .min(Comparator.comparingInt(a -> a.getProducts().stream()
+                .mapToInt(Product::getPrice).sum()))
+            .orElseThrow(() -> new NotFoundException("브랜드가 존재하지 않습니다"));
+
+        int total = 0;
+        List<CategoryResponse> categoryResponseList = brand.getProducts().stream()
+            .map(product -> CategoryResponse.builder()
+                .category(product.getCategory().getKrName())
+                .price(product.getPrice())
+                .build()).toList();
+
+        total = categoryResponseList.stream().mapToInt(CategoryResponse::getPrice).sum();
+        return Map.of("브랜드",brand.getName(),"카테고리",categoryResponseList,Total_Price,total);
     }
 
 }

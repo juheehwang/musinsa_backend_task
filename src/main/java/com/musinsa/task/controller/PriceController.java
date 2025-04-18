@@ -22,5 +22,12 @@ public class PriceController {
     }
 
 
+    @Operation(summary = "최저가격에 판매하는 브랜드와 카테고리의 상품가격 및 총액")
+    @GetMapping("/lowest-by-brand")
+    public ResponseEntity<?> getLowestByBrand(){
+        return ResponseEntity.ok(priceService.findLowestByBrandWithTotal());
+    }
+
+
 
 }

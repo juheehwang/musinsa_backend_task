@@ -21,7 +21,6 @@ public class Brand {
     private Long id;
 
     @Setter
-    @Column(unique = true, nullable = false)
     private String name;
 
     @Setter
