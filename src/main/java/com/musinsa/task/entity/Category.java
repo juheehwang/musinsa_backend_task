@@ -19,4 +19,13 @@ public enum Category {
 
     private final String krName;
 
+    public static Category nameOf(String name){
+        for(Category ct : Category.values()){
+            if(ct.getKrName().equals(name)){
+                return ct;
+            }
+        }
+        return null;
+    }
+
 }

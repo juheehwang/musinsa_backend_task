@@ -14,12 +14,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryResponse {
+public class BrandResponse {
 
-    @JsonProperty(value = "브랜드")
-    private String brand;
+    @JsonProperty(value = "카테고리")
+    private String category;
 
     @JsonProperty(value = "가격")
     private int price;
-
 }

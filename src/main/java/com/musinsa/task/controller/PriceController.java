@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,11 +22,16 @@ public class PriceController {
         return ResponseEntity.ok(priceService.findLowestByCategoryWithTotal());
     }
 
-
-    @Operation(summary = "최저가격에 판매하는 브랜드와 카테고리의 상품가격 및 총액")
+    @Operation(summary = "최저가격에 판매하는 브랜드와 카테고리의 상품가격 및 총액조회")
     @GetMapping("/lowest-by-brand")
     public ResponseEntity<?> getLowestByBrand(){
         return ResponseEntity.ok(priceService.findLowestByBrandWithTotal());
+    }
+
+    @Operation(summary = "카테고리 이름으로 최저/최고 가격과 브랜드 조회")
+    @GetMapping("/category-min-max-price")
+    public ResponseEntity<?> getCategoryMinMaxPriceInfo(@RequestParam String category){
+        return ResponseEntity.ok(priceService.findCategoryMinMaxPriceInfo(category));
     }
 
 

@@ -1,5 +1,6 @@
 package com.musinsa.task.service;
 
+import com.musinsa.task.dto.response.BrandResponse;
 import com.musinsa.task.dto.response.CategoryResponse;
 import com.musinsa.task.dto.response.PriceResponse;
 import com.musinsa.task.entity.Brand;
@@ -52,14 +53,40 @@ public class PriceService {
             .orElseThrow(() -> new NotFoundException("브랜드가 존재하지 않습니다"));
 
         int total = 0;
-        List<CategoryResponse> categoryResponseList = brand.getProducts().stream()
-            .map(product -> CategoryResponse.builder()
+        List<BrandResponse> brandResponseList = brand.getProducts().stream()
+            .map(product -> BrandResponse.builder()
                 .category(product.getCategory().getKrName())
                 .price(product.getPrice())
                 .build()).toList();
 
-        total = categoryResponseList.stream().mapToInt(CategoryResponse::getPrice).sum();
-        return Map.of("브랜드",brand.getName(),"카테고리",categoryResponseList,Total_Price,total);
+        total = brandResponseList.stream().mapToInt(BrandResponse::getPrice).sum();
+        return Map.of("브랜드",brand.getName(),"카테고리", brandResponseList,Total_Price,total);
     }
 
+    public Map<String,Object> findCategoryMinMaxPriceInfo(String category) {
+        if(category == null){
+            throw new IllegalArgumentException("카테고리는 필수입니다.");
+        }
+
+        List<CategoryResponse> minProducts = new ArrayList<>();
+        List<CategoryResponse> maxProducts = new ArrayList<>();
+
+        productRepository.findByCategoryOrderByPriceAsc(Category.nameOf(category))
+            .stream().findFirst().ifPresent(product ->
+                minProducts.add(CategoryResponse.builder()
+                    .price(product.getPrice())
+                    .brand(product.getBrand().getName())
+                    .build())
+            );
+        productRepository.findByCategoryOrderByPriceDesc(Category.nameOf(category))
+            .stream().findFirst().ifPresent(product ->
+                maxProducts.add(CategoryResponse.builder()
+                    .price(product.getPrice())
+                    .brand(product.getBrand().getName())
+                    .build())
+            );
+
+        return Map.of("카테고리",category, "최저가",minProducts,"최고가", maxProducts);
+
+    }
 }
