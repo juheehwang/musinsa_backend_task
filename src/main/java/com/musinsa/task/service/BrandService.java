@@ -27,7 +27,7 @@ public class BrandService {
         }
         Long brandId = brandRepository.save(insertRequest.toEntity()).getId();
 
-        return Map.of("아이디",brandId);
+        return Map.of("아이디", brandId);
     }
 
     public Map<String, String> updateBrand(BrandUpdateRequest updateRequest) {

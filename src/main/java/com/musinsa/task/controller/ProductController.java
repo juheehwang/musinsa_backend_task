@@ -5,6 +5,7 @@ import com.musinsa.task.dto.request.product.ProductInsertRequest;
 import com.musinsa.task.dto.request.product.ProductUpdateRequest;
 import com.musinsa.task.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,19 +24,19 @@ public class ProductController {
 
     @Operation(summary = "상품 추가")
     @PostMapping("/add")
-    public ResponseEntity<?> addProduct(@RequestBody ProductInsertRequest insertRequest){
+    public ResponseEntity<?> addProduct(@RequestBody @Valid ProductInsertRequest insertRequest){
         return ResponseEntity.ok(productService.addProduct(insertRequest));
     }
 
     @Operation(summary = "상품 수정")
     @PutMapping("/update")
-    public ResponseEntity<?> updateProduct(@RequestBody ProductUpdateRequest updateRequest){
+    public ResponseEntity<?> updateProduct(@RequestBody @Valid ProductUpdateRequest updateRequest){
         return ResponseEntity.ok(productService.updateProduct(updateRequest));
     }
 
     @Operation(summary = "상품 삭제")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteProduct(@RequestBody ProductDeleteRequest deleteRequest){
+    public ResponseEntity<?> deleteProduct(@RequestBody @Valid ProductDeleteRequest deleteRequest){
         return ResponseEntity.ok(productService.deleteProduct(deleteRequest));
     }
 

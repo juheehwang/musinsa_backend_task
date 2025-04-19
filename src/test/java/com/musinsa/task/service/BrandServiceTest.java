@@ -36,9 +36,9 @@ class BrandServiceTest {
     void addBrand_success() {
         // given
         BrandInsertRequest request = new BrandInsertRequest( "Brand1");
-        Brand savedBrand = new Brand();
-        savedBrand.setName("Brand1");
+        Brand savedBrand = Brand.builder().name("Brand1").id(1L).build();
 
+        when(brandRepository.existsByName("Brand1")).thenReturn(false);
         when(brandRepository.save(any(Brand.class))).thenReturn(savedBrand);
 
         // when
