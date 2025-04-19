@@ -65,8 +65,12 @@ public class PriceService {
     }
 
     public Map<String,Object> findCategoryMinMaxPriceInfo(String category) {
-        if(category == null){
+        if(category == null || category.isEmpty()){
             throw new IllegalArgumentException("카테고리는 필수입니다.");
+        }
+
+        if(Category.nameOf(category) == null){
+            throw new NotFoundException("존재하지않는 카테고리입니다.");
         }
 
         List<CategoryResponse> minProducts = new ArrayList<>();
