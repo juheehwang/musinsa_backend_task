@@ -32,6 +32,12 @@ public class GlobalExceptionHandler {
         LOGGER.error("NotFoundException {}\n", request.getRequestURI(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
     }
+    @ExceptionHandler(DuplicatedException.class)
+    public ResponseEntity<?> handleAllException(
+        final HttpServletRequest request, final DuplicatedException ex){
+        LOGGER.error("Exception {}\n", request.getRequestURI(), ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", ex.getMessage()));
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAllException( final HttpServletRequest request, final Exception ex){
