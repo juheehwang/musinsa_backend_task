@@ -40,10 +40,12 @@ class ProductServiceTest {
         ProductInsertRequest request = new ProductInsertRequest("상의",1L, 10000);
         when(brandRepository.findById(1L)).thenReturn(Optional.of(brand));
 
-        Product savedProduct = new Product();
-        savedProduct.setBrand(brand);
-        savedProduct.setCategory(Category.TOP);
-        savedProduct.setPrice(10000);
+        Product savedProduct = Product.builder()
+            .id(1L)
+            .category(Category.TOP)
+            .brand(brand)
+            .price(10000)
+            .build();
 
         when(productRepository.save(any(Product.class))).thenReturn(savedProduct);
 

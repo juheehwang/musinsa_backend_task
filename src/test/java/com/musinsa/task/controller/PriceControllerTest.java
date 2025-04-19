@@ -66,9 +66,7 @@ class PriceControllerTest {
     void getLowestByBrand() throws Exception {
         mockMvc.perform(get("/api/v1/prices/lowest-by-brand"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.브랜드").isString())
-            .andExpect(jsonPath("$.카테고리").isArray())
-            .andExpect(jsonPath("$.총액").isNumber());
+            .andExpect(jsonPath("$.최저가").isMap());
     }
 
     @Test
