@@ -11,5 +11,4 @@ public record BrandInsertRequest(
             .name(this.name)
             .build();
     }
-
 }

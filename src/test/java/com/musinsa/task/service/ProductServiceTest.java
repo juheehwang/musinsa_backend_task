@@ -37,7 +37,7 @@ class ProductServiceTest {
         Brand brand = new Brand();
         brand.setName("TestBrand");
 
-        var request = new ProductInsertRequest("상의",1L, 10000);
+        ProductInsertRequest request = new ProductInsertRequest("상의",1L, 10000);
         when(brandRepository.findById(1L)).thenReturn(Optional.of(brand));
 
         Product savedProduct = new Product();
@@ -57,7 +57,7 @@ class ProductServiceTest {
     @Test
     @DisplayName("상품 추가 실패 - 브랜드 없음")
     void addProduct_fail_noBrand() {
-        var request = new ProductInsertRequest("하의", 1L,5000);
+        ProductInsertRequest request = new ProductInsertRequest("하의", 1L,5000);
 
         when(brandRepository.findById(1L)).thenReturn(Optional.empty());
 

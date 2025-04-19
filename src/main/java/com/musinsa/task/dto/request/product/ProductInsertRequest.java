@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record ProductInsertRequest (
     @NotNull(message = "카테고리는 필수값입니다.") String category,
-    Long brandId,
+    @NotNull(message = "브랜드 아이디는 필수값입니다.") Long brandId,
     @NotNull(message = "가격은 필수값입니다.") int price
     ){
 
@@ -18,5 +18,4 @@ public record ProductInsertRequest (
             .price(this.price)
             .build();
     }
-
 }

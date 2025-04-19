@@ -12,6 +12,7 @@ import com.musinsa.task.entity.BrandRepository;
 import com.musinsa.task.entity.Category;
 import com.musinsa.task.entity.ProductRepository;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class BrandServiceTest {
     @DisplayName("브랜드 추가 성공")
     void addBrand_success() {
         // given
-        var request = new BrandInsertRequest( "Brand1");
+        BrandInsertRequest request = new BrandInsertRequest( "Brand1");
         Brand savedBrand = new Brand();
         savedBrand.setName("Brand1");
 
@@ -58,10 +59,10 @@ class BrandServiceTest {
         when(brandRepository.findById(1L)).thenReturn(Optional.of(existing));
         when(brandRepository.save(any(Brand.class))).thenReturn(existing);
 
-        var request = new BrandUpdateRequest(1L, "NewName");
+        BrandUpdateRequest request = new BrandUpdateRequest(1L, "NewName");
 
         // when
-        var updatedId = brandService.updateBrand(request);
+        Map<String,String> updatedId = brandService.updateBrand(request);
 
         // then
         assertThat(updatedId.get("이름")).isEqualTo("NewName");

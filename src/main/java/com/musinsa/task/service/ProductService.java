@@ -31,22 +31,15 @@ public class ProductService {
         Product product = productRepository.findById(productUpdateRequest.id())
             .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
 
-        if (!product.getBrand().getId().equals(productUpdateRequest.brandId())) {
-            throw new IllegalArgumentException("해당 브랜드에 속한 상품이 아닙니다.");
-        }
-
         product.setCategory(Category.nameOf(productUpdateRequest.category()));
         product.setPrice(productUpdateRequest.price());
+
         return productRepository.save(product).getId();
     }
 
     public Boolean deleteProduct(ProductUpdateRequest productUpdateRequest) {
         Product product = productRepository.findById(productUpdateRequest.id())
             .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
-
-        if (!product.getBrand().getId().equals(productUpdateRequest.brandId())) {
-            throw new IllegalArgumentException("해당 브랜드에 속한 상품이 아닙니다.");
-        }
 
         productRepository.delete(product);
         return true;

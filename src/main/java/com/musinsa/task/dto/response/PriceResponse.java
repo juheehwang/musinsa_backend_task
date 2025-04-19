@@ -24,8 +24,4 @@ public class PriceResponse {
 
     @JsonProperty(value = "가격")
     private int price;
-
-
-
-
 }

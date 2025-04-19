@@ -27,7 +27,6 @@ public class PriceService {
 
     public Map<String, Object> findLowestByCategoryWithTotal(){
         List<PriceResponse> priceResponseList = new ArrayList<>();
-        int total = 0;
 
         for(Category category: Category.values()){
             productRepository.findByCategoryOrderByPriceAsc(category)
@@ -42,8 +41,9 @@ public class PriceService {
                 });
         }
 
-        total = priceResponseList.stream().mapToInt(PriceResponse::getPrice).sum();
-       return Map.of("products",priceResponseList,Total_Price, total);
+       return Map.of("products",priceResponseList,
+           Total_Price, priceResponseList.stream().mapToInt(PriceResponse::getPrice).sum()
+       );
     }
 
     public Map<String, Object> findLowestByBrandWithTotal() {
@@ -52,15 +52,16 @@ public class PriceService {
                 .mapToInt(Product::getPrice).sum()))
             .orElseThrow(() -> new NotFoundException("브랜드가 존재하지 않습니다"));
 
-        int total = 0;
         List<BrandResponse> brandResponseList = brand.getProducts().stream()
             .map(product -> BrandResponse.builder()
                 .category(product.getCategory().getKrName())
                 .price(product.getPrice())
                 .build()).toList();
 
-        total = brandResponseList.stream().mapToInt(BrandResponse::getPrice).sum();
-        return Map.of("브랜드",brand.getName(),"카테고리", brandResponseList,Total_Price,total);
+        return Map.of("브랜드",brand.getName(),
+            "카테고리", brandResponseList,
+            Total_Price,brandResponseList.stream().mapToInt(BrandResponse::getPrice).sum()
+        );
     }
 
     public Map<String,Object> findCategoryMinMaxPriceInfo(String category) {

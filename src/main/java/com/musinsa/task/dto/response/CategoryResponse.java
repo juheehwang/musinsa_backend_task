@@ -21,5 +21,4 @@ public class CategoryResponse {
 
     @JsonProperty(value = "가격")
     private int price;
-
 }

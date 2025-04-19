@@ -3,6 +3,7 @@ package com.musinsa.task.controller;
 import com.musinsa.task.dto.request.brand.BrandInsertRequest;
 import com.musinsa.task.dto.request.brand.BrandUpdateRequest;
 import com.musinsa.task.service.BrandService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,16 +20,19 @@ public class BrandController {
 
     private final BrandService brandService;
 
+    @Operation(summary = "브랜드 추가")
     @PostMapping
     public ResponseEntity<?> addBrand(@RequestBody BrandInsertRequest insertRequest){
         return ResponseEntity.ok(brandService.addBrand(insertRequest));
     }
 
+    @Operation(summary = "브랜드 수정")
     @PutMapping
     public ResponseEntity<?> updateBrand(@RequestBody BrandUpdateRequest updateRequest) {
         return ResponseEntity.ok(brandService.updateBrand(updateRequest));
     }
 
+    @Operation(summary = "브랜드 삭제")
     @DeleteMapping
     public ResponseEntity<?> deleteBrand(@RequestBody BrandUpdateRequest updateRequest) {
         return ResponseEntity.ok(brandService.deleteBrand(updateRequest));

@@ -22,7 +22,7 @@ public class PriceController {
         return ResponseEntity.ok(priceService.findLowestByCategoryWithTotal());
     }
 
-    @Operation(summary = "최저가격에 판매하는 브랜드와 카테고리의 상품가격 및 총액조회")
+    @Operation(summary = "최저가격에 판매하는 단일 브랜드와 카테고리의 상품가격 및 총액조회")
     @GetMapping("/lowest-by-brand")
     public ResponseEntity<?> getLowestByBrand(){
         return ResponseEntity.ok(priceService.findLowestByBrandWithTotal());

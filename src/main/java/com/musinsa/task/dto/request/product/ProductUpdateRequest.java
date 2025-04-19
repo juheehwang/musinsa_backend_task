@@ -8,5 +8,4 @@ public record ProductUpdateRequest(
     Long brandId,
     int price
 ) {
-
 }

@@ -24,7 +24,8 @@ public class BrandService {
         if(brandRepository.existsByName(insertRequest.name())){
             throw new DuplicatedException("존재하는 브랜드 이름입니다");
         }
-        var brandId = brandRepository.save(insertRequest.toEntity()).getId();
+        Long brandId = brandRepository.save(insertRequest.toEntity()).getId();
+
         return Map.of("아이디",brandId);
     }
 
@@ -33,14 +34,14 @@ public class BrandService {
             .orElseThrow(() -> new IllegalArgumentException("해당 브랜드가 존재하지 않습니다."));
 
         brand.setName(updateRequest.name());
-        var brandName = brandRepository.save(brand).getName();
+        String brandName = brandRepository.save(brand).getName();
+
         return Map.of("이름",brandName);
     }
 
     public boolean deleteBrand(BrandUpdateRequest updateRequest) {
         Brand brand = brandRepository.findById(updateRequest.id())
             .orElseThrow(() -> new IllegalArgumentException("해당 브랜드가 존재하지 않습니다."));
-
         brandRepository.delete(brand);
         return true;
     }
