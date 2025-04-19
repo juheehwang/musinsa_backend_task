@@ -2,6 +2,7 @@ package com.musinsa.task.service;
 
 import com.musinsa.task.dto.response.BrandResponse;
 import com.musinsa.task.dto.response.CategoryResponse;
+import com.musinsa.task.dto.response.LowestBrandTotalResponse;
 import com.musinsa.task.dto.response.PriceResponse;
 import com.musinsa.task.entity.Brand;
 import com.musinsa.task.entity.BrandRepository;
@@ -58,9 +59,10 @@ public class PriceService {
                 .price(product.getPrice())
                 .build()).toList();
 
-        return Map.of("브랜드",brand.getName(),
-            "카테고리", brandResponseList,
-            Total_Price,brandResponseList.stream().mapToInt(BrandResponse::getPrice).sum()
+        return Map.of("최저가", LowestBrandTotalResponse.builder().brand(brand.getName())
+            .brandResponseList(brandResponseList)
+            .total(brandResponseList.stream().mapToInt(BrandResponse::getPrice).sum())
+            .build()
         );
     }
 

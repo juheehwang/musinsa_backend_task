@@ -1,5 +1,6 @@
 package com.musinsa.task.controller;
 
+import com.musinsa.task.dto.request.brand.BrandDeleteRequest;
 import com.musinsa.task.dto.request.brand.BrandInsertRequest;
 import com.musinsa.task.dto.request.brand.BrandUpdateRequest;
 import com.musinsa.task.service.BrandService;
@@ -34,7 +35,7 @@ public class BrandController {
 
     @Operation(summary = "브랜드 삭제")
     @DeleteMapping
-    public ResponseEntity<?> deleteBrand(@RequestBody BrandUpdateRequest updateRequest) {
-        return ResponseEntity.ok(brandService.deleteBrand(updateRequest));
+    public ResponseEntity<?> deleteBrand(@RequestBody BrandDeleteRequest deleteRequest) {
+        return ResponseEntity.ok(brandService.deleteBrand(deleteRequest));
     }
 }

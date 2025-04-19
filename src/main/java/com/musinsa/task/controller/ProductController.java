@@ -1,5 +1,6 @@
 package com.musinsa.task.controller;
 
+import com.musinsa.task.dto.request.product.ProductDeleteRequest;
 import com.musinsa.task.dto.request.product.ProductInsertRequest;
 import com.musinsa.task.dto.request.product.ProductUpdateRequest;
 import com.musinsa.task.service.ProductService;
@@ -34,8 +35,8 @@ public class ProductController {
 
     @Operation(summary = "상품 삭제")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteProduct(@RequestBody ProductUpdateRequest updateRequest){
-        return ResponseEntity.ok(productService.deleteProduct(updateRequest));
+    public ResponseEntity<?> deleteProduct(@RequestBody ProductDeleteRequest deleteRequest){
+        return ResponseEntity.ok(productService.deleteProduct(deleteRequest));
     }
 
 }

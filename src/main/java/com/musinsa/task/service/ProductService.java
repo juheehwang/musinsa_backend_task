@@ -1,5 +1,6 @@
 package com.musinsa.task.service;
 
+import com.musinsa.task.dto.request.product.ProductDeleteRequest;
 import com.musinsa.task.dto.request.product.ProductInsertRequest;
 import com.musinsa.task.dto.request.product.ProductUpdateRequest;
 import com.musinsa.task.entity.Brand;
@@ -8,6 +9,7 @@ import com.musinsa.task.entity.Category;
 import com.musinsa.task.entity.Product;
 import com.musinsa.task.entity.ProductRepository;
 import jakarta.transaction.Transactional;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,26 +22,29 @@ public class ProductService {
     private final BrandRepository brandRepository;
 
 
-    public Long addProduct(ProductInsertRequest productInsertRequest) {
+    public Map<String,Long> addProduct(ProductInsertRequest productInsertRequest) {
         Brand brand = brandRepository.findById(productInsertRequest.brandId())
             .orElseThrow(() -> new IllegalArgumentException("해당 브랜드가 존재하지 않습니다."));
 
-        return productRepository.save(productInsertRequest.toEntity(brand)).getId();
+        Product product = productRepository.save(productInsertRequest.toEntity(brand));
+
+        return Map.of("상품코드",product.getId());
     }
 
-    public Long updateProduct(ProductUpdateRequest productUpdateRequest) {
+    public Map<String,Long> updateProduct(ProductUpdateRequest productUpdateRequest) {
         Product product = productRepository.findById(productUpdateRequest.id())
             .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
 
         product.setCategory(Category.nameOf(productUpdateRequest.category()));
         product.setPrice(productUpdateRequest.price());
 
-        return productRepository.save(product).getId();
+        Long productId = productRepository.save(product).getId();
+        return Map.of("상품코드",productId);
     }
 
-    public Boolean deleteProduct(ProductUpdateRequest productUpdateRequest) {
-        Product product = productRepository.findById(productUpdateRequest.id())
-            .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
+    public Boolean deleteProduct(ProductDeleteRequest deleteRequest) {
+        Product product = productRepository.findById(deleteRequest.id())
+            .orElseThrow(() -> new IllegalArgumentException("삭제할 상품이 존재하지 않습니다."));
 
         productRepository.delete(product);
         return true;

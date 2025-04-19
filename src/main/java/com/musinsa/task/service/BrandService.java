@@ -1,5 +1,6 @@
 package com.musinsa.task.service;
 
+import com.musinsa.task.dto.request.brand.BrandDeleteRequest;
 import com.musinsa.task.dto.request.brand.BrandInsertRequest;
 import com.musinsa.task.dto.request.brand.BrandUpdateRequest;
 import com.musinsa.task.entity.Brand;
@@ -39,9 +40,9 @@ public class BrandService {
         return Map.of("이름",brandName);
     }
 
-    public boolean deleteBrand(BrandUpdateRequest updateRequest) {
-        Brand brand = brandRepository.findById(updateRequest.id())
-            .orElseThrow(() -> new IllegalArgumentException("해당 브랜드가 존재하지 않습니다."));
+    public boolean deleteBrand(BrandDeleteRequest deleteRequest) {
+        Brand brand = brandRepository.findById(deleteRequest.id())
+            .orElseThrow(() -> new IllegalArgumentException("삭제할 브랜드가 존재하지 않습니다."));
         brandRepository.delete(brand);
         return true;
     }
