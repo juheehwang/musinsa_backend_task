@@ -23,19 +23,19 @@ public class ProductController {
     private final ProductService productService;
 
     @Operation(summary = "상품 추가")
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody @Valid ProductInsertRequest insertRequest){
         return ResponseEntity.ok(productService.addProduct(insertRequest));
     }
 
     @Operation(summary = "상품 수정")
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<?> updateProduct(@RequestBody @Valid ProductUpdateRequest updateRequest){
         return ResponseEntity.ok(productService.updateProduct(updateRequest));
     }
 
     @Operation(summary = "상품 삭제")
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<?> deleteProduct(@RequestBody @Valid ProductDeleteRequest deleteRequest){
         return ResponseEntity.ok(productService.deleteProduct(deleteRequest));
     }
